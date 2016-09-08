@@ -42,6 +42,9 @@ typedef struct _t_counters {
     unsigned long long incoming_delta;                    /**< @brief Incoming data after last report*/
     unsigned long long outgoing_delta;                    /**< @brief Outgoing data after last report*/
     time_t last_updated;        /**< @brief Last update of the counters */
+    time_t authenticated;       /**< @brief Time of authenticated */
+    unsigned int sessiontimeout; /**< @brief seconds of session remaining time */
+    unsigned int idletimeout; /**< @brief seconds of session remaining time if client is not respond */
 } t_counters;
 
 /** Client node for the connected client linked list.

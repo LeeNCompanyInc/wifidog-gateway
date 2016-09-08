@@ -210,6 +210,8 @@ get_status_text()
         pstr_append_sprintf(pstr, "  Token: %s\n", current->token);
         pstr_append_sprintf(pstr, "  Downloaded: %llu\n  Uploaded: %llu\n", current->counters.incoming,
                             current->counters.outgoing);
+        pstr_append_sprintf(pstr, "  Session Timeout: %d Idle Timeout: %d\n", current->counters.sessiontimeout,
+                            current->counters.idletimeout);
         count++;
         current = current->next;
     }

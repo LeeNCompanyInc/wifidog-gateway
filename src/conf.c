@@ -104,6 +104,7 @@ typedef enum {
     oSSLCertPath,
     oSSLAllowedCipherList,
     oSSLUseSNI,
+    oSessionTimeout,
 } OpCodes;
 
 /** @internal
@@ -151,6 +152,7 @@ static const struct {
     "sslcertpath", oSSLCertPath}, {
     "sslallowedcipherlist", oSSLAllowedCipherList}, {
     "sslusesni", oSSLUseSNI}, {
+    "sessiontimeout", oSessionTimeout}, {
 NULL, oBadOption},};
 
 static void config_notnull(const void *, const char *);
@@ -193,6 +195,7 @@ config_init(void)
     config.httpdusername = NULL;
     config.httpdpassword = NULL;
     config.clienttimeout = DEFAULT_CLIENTTIMEOUT;
+    config.sessiontimeout = DEFAULT_SESSIONTIMEOUT;
     config.checkinterval = DEFAULT_CHECKINTERVAL;
     config.daemon = -1;
     config.pidfile = NULL;
@@ -759,6 +762,9 @@ config_read(const char *filename)
                 case oWdctlSocket:
                     free(config.wdctl_sock);
                     config.wdctl_sock = safe_strdup(p1);
+                    break;
+                case oSessionTimeout:
+                    sscanf(p1, "%d", &config.sessiontimeout);
                     break;
                 case oClientTimeout:
                     sscanf(p1, "%d", &config.clienttimeout);

@@ -77,6 +77,8 @@ auth_server_request(t_authresponse * authresponse, const char *request_type, con
 
     /* Blanket default is error. */
     authresponse->authcode = AUTH_ERROR;
+    authresponse->sessiontimeout = 0;
+    authresponse->idletimeout = (config->checkinterval * config->clienttimeout);
 
     sockfd = connect_auth_server();
 
@@ -134,6 +136,20 @@ auth_server_request(t_authresponse * authresponse, const char *request_type, con
     if ((tmp = strstr(res, "Auth: "))) {
         if (sscanf(tmp, "Auth: %d", (int *)&authresponse->authcode) == 1) {
             debug(LOG_INFO, "Auth server returned authentication code %d", authresponse->authcode);
+            if (authresponse->authcode == AUTH_ALLOWED) {
+                /* Check if session timeout provides by auth server */
+                if ((tmp = strstr(res, "Session-Timeout: "))) {
+                    if (sscanf(tmp, "Session-Timeout: %d", (int *)&authresponse->sessiontimeout) == 1) {
+                        debug(LOG_INFO, "Auth server returned session timeout value %d", authresponse->sessiontimeout);
+                    }
+                }
+                /* Check if idle timeout provides by auth server */
+                if ((tmp = strstr(res, "Idle-Timeout: "))) {
+                    if (sscanf(tmp, "Idle-Timeout: %d", (int *)&authresponse->idletimeout) == 1) {
+                        debug(LOG_INFO, "Auth server returned idle timeout value %d", authresponse->idletimeout);
+                    }
+                }
+            }
             free(res);
             return (authresponse->authcode);
         } else {

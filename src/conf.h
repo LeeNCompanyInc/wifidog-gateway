@@ -45,6 +45,7 @@
 #define DEFAULT_GATEWAYID NULL
 #define DEFAULT_GATEWAYPORT 2060
 #define DEFAULT_HTTPDNAME "WiFiDog"
+#define DEFAULT_SESSIONTIMEOUT 0
 #define DEFAULT_CLIENTTIMEOUT 5
 #define DEFAULT_CHECKINTERVAL 60
 #define DEFAULT_LOG_SYSLOG 0
@@ -181,6 +182,8 @@ typedef struct {
     char *httpdrealm;           /**< @brief HTTP Authentication realm */
     char *httpdusername;        /**< @brief Username for HTTP authentication */
     char *httpdpassword;        /**< @brief Password for HTTP authentication */
+    int sessiontimeout;         /**< @brief How much time to stay client
+                     before client must be re-authenticated (0 to no limit) */
     int clienttimeout;          /**< @brief How many CheckIntervals before a client
 				     must be re-authenticated */
     int checkinterval;          /**< @brief Frequency the the client timeout check

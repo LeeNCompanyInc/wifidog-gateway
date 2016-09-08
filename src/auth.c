@@ -221,6 +221,12 @@ authenticate_client(request * r)
         debug(LOG_INFO, "Got ALLOWED from central server authenticating token %s from %s at %s - "
               "adding to firewall and redirecting them to portal", client->token, client->ip, client->mac);
         fw_allow(client, FW_MARK_KNOWN);
+        /* Set authenticated time */
+        client->counters.authenticated = time(NULL);
+        /* Set session timeout */
+        client->counters.sessiontimeout = auth_response.sessiontimeout;
+        /* Set idle timeout */
+        client->counters.idletimeout = auth_response.idletimeout;
         served_this_session++;
         safe_asprintf(&urlFragment, "%sgw_id=%s&ip=%s&mac=%s&token=%s", auth_server->authserv_portal_script_path_fragment, config->gw_id, client->ip, client->mac, client->token);
         http_send_redirect_to_auth(r, urlFragment, "Redirect to portal");

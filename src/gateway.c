@@ -204,6 +204,12 @@ get_clients_from_parent(void)
                             client->counters.outgoing_delta = 0;
                         } else if (strcmp(key, "counters_last_updated") == 0) {
                             client->counters.last_updated = atol(value);
+                        } else if (strcmp(key, "counters_authenticated") == 0) {
+                            client->counters.authenticated = atol(value);
+                        } else if (strcmp(key, "counters_sessiontimeout") == 0) {
+                            client->counters.sessiontimeout = atoi(value);
+                        } else if (strcmp(key, "counters_idletimeout") == 0) {
+                            client->counters.idletimeout = atoi(value);
                         } else {
                             debug(LOG_NOTICE, "I don't know how to inherit key [%s] value [%s] from parent", key,
                                   value);

@@ -126,6 +126,9 @@ client_list_add(const char *ip, const char *mac, const char *token)
             curclient->counters.incoming = curclient->counters.incoming_history = curclient->counters.outgoing =
         curclient->counters.outgoing_history = 0;
     curclient->counters.last_updated = time(NULL);
+    curclient->counters.authenticated = 0;
+    curclient->counters.sessiontimeout = 0;
+    curclient->counters.idletimeout = 0;
 
     client_list_insert_client(curclient);
 
@@ -196,6 +199,9 @@ client_dup(const t_client * src)
     new->counters.outgoing_history = src->counters.outgoing_history;
     new->counters.outgoing_delta = src->counters.outgoing_delta;
     new->counters.last_updated = src->counters.last_updated;
+    new->counters.authenticated = src->counters.authenticated;
+    new->counters.sessiontimeout = src->counters.sessiontimeout;
+    new->counters.idletimeout = src->counters.idletimeout;
     new->next = NULL;
 
     return new;
