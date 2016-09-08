@@ -870,7 +870,7 @@ check_mac_format(char *possiblemac)
     char hex2[3];
     return
         sscanf(possiblemac,
-               "%2[A-Fa-f0-9]:%2[A-Fa-f0-9]:%2[A-Fa-f0-9]:%2[A-Fa-f0-9]:%2[A-Fa-f0-9]:%2[A-Fa-f0-9]",
+               "%2c:%2c:%2c:%2c:%2c:%2c",
                hex2, hex2, hex2, hex2, hex2, hex2) == 6;
 }
 
@@ -902,7 +902,7 @@ parse_trusted_mac_list(const char *ptr)
             free(mac);
             return;
         } else {
-            if (sscanf(possiblemac, " %17[A-Fa-f0-9:]", mac) == 1) {
+            if (sscanf(possiblemac, " %17s", mac) == 1) {
                 /* Copy mac to the list */
 
                 debug(LOG_DEBUG, "Adding MAC address [%s] to trusted list", mac);
